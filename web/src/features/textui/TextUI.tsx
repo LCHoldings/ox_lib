@@ -8,28 +8,39 @@ import type { TextUiPosition, TextUiProps } from '../../typings';
 import MarkdownComponents from '../../config/MarkdownComponents';
 import LibIcon from '../../components/LibIcon';
 
-const useStyles = createStyles((theme, params: { position?: TextUiPosition }) => ({
+const useStyles = createStyles((theme, { position }: { position?: TextUiPosition }) => ({
   wrapper: {
     height: '100%',
     width: '100%',
     position: 'absolute',
     display: 'flex',
-    alignItems: 
-      params.position === 'top-center' ? 'baseline' :
-      params.position === 'bottom-center' ? 'flex-end' : 'center',
-    justifyContent: 
-      params.position === 'right-center' ? 'flex-end' :
-      params.position === 'left-center' ? 'flex-start' : 'center',
+    alignItems: position === 'top-center' ? 'baseline' :
+                position === 'bottom-center' ? 'flex-end' : 'center',
+    justifyContent: position === 'right-center' ? 'flex-end' :
+                   position === 'left-center' ? 'flex-start' : 'center',
   },
   container: {
     fontSize: 16,
-    padding: 12,
+    padding: 10,
     margin: 8,
     backgroundColor: theme.colors.dark[6],
-    color: theme.colors.dark[0],
+    color: '#ddd',
     fontFamily: 'Roboto',
     borderRadius: theme.radius.sm,
     boxShadow: theme.shadows.sm,
+    border: `1px solid ${theme.colors.dark[4]}`,
+  },
+  keybind: {
+    backgroundColor: '#e0e0e0',
+    color: '#333',
+    fontWeight: 'bold',
+    borderRadius: '4px',
+    borderBottom: '4px solid #b0b0b0',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    padding: '0rem 0.6rem',
+    fontSize: '1rem',
+    textAlign: 'center',
   },
 }));
 
@@ -41,21 +52,36 @@ const TextUI: React.FC = () => {
   const [visible, setVisible] = React.useState(false);
   const { classes } = useStyles({ position: data.position });
 
+  const fakeText = "[E] - Press to interact";
+  const fakeText2 = "[D] Press to interact with the world";
+  const fakeText3 = "Hello World";
+
+  data.text = fakeText;
+
+  const keybind = React.useMemo(() => {
+    const match = data.text.match(/\[([a-zA-Z])\]/);
+    return match ? match[1].toUpperCase() : null;
+  }, [data.text]);
+
+  const str = data.text.replace(/\[([a-zA-Z])\]/g, '');
+  const strWithoutKeybind = str.replace(/<[^>]+>/g, '').trim();
+
   useNuiEvent<TextUiProps>('textUi', (data) => {
-    if (!data.position) data.position = 'right-center'; // Default right position
-    setData(data);
+    setData({ ...data, position: data.position || 'right-center' });
     setVisible(true);
   });
 
   useNuiEvent('textUiHide', () => setVisible(false));
 
   return (
-    <>
-      <Box className={classes.wrapper}>
-        <ScaleFade visible={visible}>
-          <Box style={data.style} className={classes.container}>
-            <Group spacing={12}>
-              {data.icon && (
+    <Box className={classes.wrapper}>
+      <ScaleFade visible={visible}>
+        <Box style={data.style} className={classes.container}>
+          <Group spacing={12}>
+            {keybind ? (
+              <kbd className={classes.keybind}>{keybind}</kbd>
+            ) : (
+              data.icon && (
                 <LibIcon
                   icon={data.icon}
                   fixedWidth
@@ -63,18 +89,18 @@ const TextUI: React.FC = () => {
                   animation={data.iconAnimation}
                   style={{
                     color: data.iconColor,
-                    alignSelf: !data.alignIcon || data.alignIcon === 'center' ? 'center' : 'start',
+                    alignSelf: data.alignIcon === 'center' || !data.alignIcon ? 'center' : 'start',
                   }}
                 />
-              )}
-              <ReactMarkdown components={MarkdownComponents} remarkPlugins={[remarkGfm]}>
-                {data.text}
-              </ReactMarkdown>
-            </Group>
-          </Box>
-        </ScaleFade>
-      </Box>
-    </>
+              )
+            )}
+            <ReactMarkdown components={MarkdownComponents} remarkPlugins={[remarkGfm]}>
+              {str}
+            </ReactMarkdown>
+          </Group>
+        </Box>
+      </ScaleFade>
+    </Box>
   );
 };
 
