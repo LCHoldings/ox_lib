@@ -12,11 +12,12 @@ const useStyles = createStyles((theme) => ({
   container: {
     width: 300,
     height: 'fit-content',
-    backgroundColor: theme.colors.dark[6],
+    backgroundColor: theme.colors.dark[5],
+    border: `1px solid ${theme.colors.dark[4]}`,
     color: theme.colors.dark[0],
     padding: 12,
-    borderRadius: theme.radius.sm,
-    fontFamily: 'Roboto',
+    borderRadius: theme.radius.md,
+    fontFamily: 'Geist',
     boxShadow: theme.shadows.sm,
   },
   title: {
@@ -26,13 +27,13 @@ const useStyles = createStyles((theme) => ({
   description: {
     fontSize: 12,
     color: theme.colors.dark[2],
-    fontFamily: 'Roboto',
+    fontFamily: 'Geist',
     lineHeight: 'normal',
   },
   descriptionOnly: {
     fontSize: 14,
     color: theme.colors.dark[2],
-    fontFamily: 'Roboto',
+    fontFamily: 'Geist',
     lineHeight: 'normal',
   },
 }));
