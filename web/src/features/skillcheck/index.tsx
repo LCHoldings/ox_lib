@@ -28,7 +28,7 @@ const useStyles = createStyles((theme, params: { difficultyOffset: number }) => 
   track: {
     fill: 'transparent',
     stroke: theme.colors.dark[5],
-    strokeWidth: 8,
+    strokeWidth: 12,
     r: 50,
     cx: 250,
     cy: 250,
@@ -42,14 +42,14 @@ const useStyles = createStyles((theme, params: { difficultyOffset: number }) => 
   skillArea: {
     fill: 'transparent',
     stroke: theme.fn.primaryColor(),
-    strokeWidth: 8,
+    strokeWidth: 12,
     r: 50,
     cx: 250,
     cy: 250,
     strokeDasharray: circleCircumference,
     strokeDashoffset: circleCircumference - (Math.PI * 50 * params.difficultyOffset) / 180,
     '@media (min-height: 1440px)': {
-      strokeWidth: 10,
+      strokeWidth: 14,
       r: 65,
       strokeDasharray: 2 * 65 * Math.PI,
       strokeDashoffset: 2 * 65 * Math.PI - (Math.PI * 65 * params.difficultyOffset) / 180,
@@ -57,7 +57,7 @@ const useStyles = createStyles((theme, params: { difficultyOffset: number }) => 
   },
   indicator: {
     stroke: 'red',
-    strokeWidth: 16,
+    strokeWidth: 18,
     fill: 'transparent',
     r: 50,
     cx: 250,
@@ -65,7 +65,7 @@ const useStyles = createStyles((theme, params: { difficultyOffset: number }) => 
     strokeDasharray: circleCircumference,
     strokeDashoffset: circleCircumference - 3,
     '@media (min-height: 1440px)': {
-      strokeWidth: 18,
+      strokeWidth: 20,
       r: 65,
       strokeDasharray: 2 * 65 * Math.PI,
       strokeDashoffset: 2 * 65 * Math.PI - 5,
@@ -76,22 +76,19 @@ const useStyles = createStyles((theme, params: { difficultyOffset: number }) => 
     left: '50%',
     top: '50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: theme.colors.dark[5],
-    width: 25,
-    height: 25,
-    textAlign: 'center',
-    borderRadius: 5,
-    fontSize: 16,
-    fontWeight: 500,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '@media (min-height: 1440px)': {
-      width: 30,
-      height: 30,
-      fontSize: 22,
-    },
   },
+  kbd: {
+    backgroundColor: '#e0e0e0',
+    color: '#333',
+    fontWeight: 'bold',
+    borderRadius: '4px',
+    borderBottom: '4px solid #b0b0b0',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    padding: '0rem 0.5rem',
+    fontSize: '1rem',
+    textAlign: 'center',
+  }
 }));
 
 const SkillCheck: React.FC = () => {
@@ -171,17 +168,21 @@ const SkillCheck: React.FC = () => {
                 skillCheck.difficulty === 'easy'
                   ? 1
                   : skillCheck.difficulty === 'medium'
-                  ? 1.5
-                  : skillCheck.difficulty === 'hard'
-                  ? 1.75
-                  : skillCheck.difficulty.speedMultiplier
+                    ? 1.5
+                    : skillCheck.difficulty === 'hard'
+                      ? 1.75
+                      : skillCheck.difficulty.speedMultiplier
               }
               handleComplete={handleComplete}
               className={classes.indicator}
               skillCheck={skillCheck}
             />
           </svg>
-          <Box className={classes.button}>{skillCheck.key.toUpperCase()}</Box>
+          <Box className={classes.button}>
+            <kbd className={classes.kbd}>
+              {skillCheck.key.toUpperCase()}
+            </kbd>
+          </Box>
         </>
       )}
     </>

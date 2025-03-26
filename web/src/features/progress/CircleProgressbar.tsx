@@ -34,12 +34,13 @@ const useStyles = createStyles((theme, params: { position: 'middle' | 'bottom'; 
   },
   value: {
     textAlign: 'center',
-    fontFamily: 'Roboto Mono',
+    fontFamily: 'Geist',
     textShadow: theme.shadows.sm,
     color: theme.colors.gray[3],
   },
   label: {
     textAlign: 'center',
+    fontFamily: 'Geist',
     textShadow: theme.shadows.sm,
     color: theme.colors.gray[3],
     height: 25,

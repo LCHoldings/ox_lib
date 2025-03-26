@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
   container: {
     width: 350,
     height: 45,
-    borderRadius: theme.radius.sm,
+    borderRadius: theme.radius.md,
     backgroundColor: theme.colors.dark[5],
     overflow: 'hidden',
   },
@@ -40,6 +40,7 @@ const useStyles = createStyles((theme) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
+    fontFamily: 'Geist',
     fontSize: 20,
     color: theme.colors.gray[3],
     textShadow: theme.shadows.sm,
